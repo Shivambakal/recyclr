@@ -164,7 +164,7 @@ function RecordView() {
               </PaperCard>
               <div className="card-lumen card-edge-gold p-6">
                 <p className="eyebrow text-faint">Recovery</p>
-                <p className="display-tight grad-text-fire mt-2 text-2xl">₹{record.inrValue} <span className="text-sm font-bold text-faint">est. value</span></p>
+                <p className="display-tight text-amber mt-2 text-2xl">₹{record.inrValue} <span className="text-sm font-bold text-faint">est. value</span></p>
                 <p className="mt-1 text-sm text-mute">{record.co2SavedKg} kg CO₂e avoided</p>
                 <p className="mt-1 text-sm text-mute">{record.materials.length} material streams</p>
               </div>
