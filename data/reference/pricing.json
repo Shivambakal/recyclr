@@ -1,0 +1,382 @@
+{
+  "_meta": {
+    "asOf": "2026-10-11",
+    "currency": "INR",
+    "disclaimer": "ALL figures are rough informal-sector estimates for Indian kabadi/recycler markets. They move with commodity prices, city, condition and buyer. They are planning inputs for the agent's reasoning trace — never facts, never quotes.",
+    "note": "resaleRefurb = what a working/refurbishable unit might fetch. wholeUnitScrap = what the dead unit is worth as scrap to a dismantler. Ranges reflect condition spread.",
+    "source": "informal-sector estimate",
+    "version": 1,
+    "idConvention": "All scrap ids are real exported ids from lib/materials.ts (reconciled 2026-10-11)."
+  },
+  "devices": {
+    "air-conditioner": {
+      "asOf": "2026-10-11",
+      "estimate": true,
+      "id": "air-conditioner",
+      "note": "Working 1.5T splits resell well; dead units priced on copper.",
+      "resaleRefurbInr": {
+        "max": 9000,
+        "min": 4000
+      },
+      "source": "informal-sector estimate",
+      "wholeUnitScrapInr": {
+        "max": 5500,
+        "min": 3000
+      }
+    },
+    "crt-monitor": {
+      "asOf": "2026-10-11",
+      "estimate": true,
+      "id": "crt-monitor",
+      "note": "Effectively negative value: leaded glass disposal costs. Kabadi often refuses CRTs.",
+      "resaleRefurbInr": {
+        "max": 500,
+        "min": 0
+      },
+      "source": "informal-sector estimate",
+      "wholeUnitScrapInr": {
+        "max": 200,
+        "min": 0
+      }
+    },
+    "desktop-pc": {
+      "asOf": "2026-10-11",
+      "estimate": true,
+      "id": "desktop-pc",
+      "note": "Working towers resell; dead ones priced on boards + PSU copper.",
+      "resaleRefurbInr": {
+        "max": 5000,
+        "min": 1500
+      },
+      "source": "informal-sector estimate",
+      "wholeUnitScrapInr": {
+        "max": 900,
+        "min": 400
+      }
+    },
+    "laptop": {
+      "asOf": "2026-10-11",
+      "estimate": true,
+      "id": "laptop",
+      "note": "Working i5-grade laptops resell strongly; dead units priced on boards + battery.",
+      "resaleRefurbInr": {
+        "max": 8000,
+        "min": 2000
+      },
+      "source": "informal-sector estimate",
+      "wholeUnitScrapInr": {
+        "max": 800,
+        "min": 350
+      }
+    },
+    "lead-acid-battery": {
+      "asOf": "2026-10-11",
+      "estimate": true,
+      "id": "lead-acid-battery",
+      "note": "Priced almost purely per kg of lead.",
+      "resaleRefurbInr": {
+        "max": 1200,
+        "min": 300
+      },
+      "source": "informal-sector estimate",
+      "wholeUnitScrapInr": {
+        "max": 1100,
+        "min": 540
+      }
+    },
+    "led-tv": {
+      "asOf": "2026-10-11",
+      "estimate": true,
+      "id": "led-tv",
+      "note": "Working 32-inch panels resell; dead ones are panel-glass + boards.",
+      "resaleRefurbInr": {
+        "max": 4000,
+        "min": 1000
+      },
+      "source": "informal-sector estimate",
+      "wholeUnitScrapInr": {
+        "max": 600,
+        "min": 250
+      }
+    },
+    "li-ion-battery": {
+      "asOf": "2026-10-11",
+      "estimate": true,
+      "id": "li-ion-battery",
+      "note": "Cobalt/nickel-rich packs (laptop, EV) beat LFP packs on scrap value.",
+      "resaleRefurbInr": {
+        "max": 1500,
+        "min": 200
+      },
+      "source": "informal-sector estimate",
+      "wholeUnitScrapInr": {
+        "max": 600,
+        "min": 150
+      }
+    },
+    "printer": {
+      "asOf": "2026-10-11",
+      "estimate": true,
+      "id": "printer",
+      "note": "Laser printers beat inkjets on both resale and scrap.",
+      "resaleRefurbInr": {
+        "max": 1500,
+        "min": 300
+      },
+      "source": "informal-sector estimate",
+      "wholeUnitScrapInr": {
+        "max": 350,
+        "min": 120
+      }
+    },
+    "refrigerator": {
+      "asOf": "2026-10-11",
+      "estimate": true,
+      "id": "refrigerator",
+      "note": "Working units resell; dead ones priced on steel + compressor copper.",
+      "resaleRefurbInr": {
+        "max": 4000,
+        "min": 1500
+      },
+      "source": "informal-sector estimate",
+      "wholeUnitScrapInr": {
+        "max": 3000,
+        "min": 1500
+      }
+    },
+    "smartphone": {
+      "asOf": "2026-10-11",
+      "estimate": true,
+      "id": "smartphone",
+      "note": "Working phones resell strongly; dead boards go to smelter feed.",
+      "resaleRefurbInr": {
+        "max": 3000,
+        "min": 500
+      },
+      "source": "informal-sector estimate",
+      "wholeUnitScrapInr": {
+        "max": 200,
+        "min": 80
+      }
+    },
+    "tablet": {
+      "asOf": "2026-10-11",
+      "estimate": true,
+      "id": "tablet",
+      "note": "Working tablets resell; dead ones are display + board scrap.",
+      "resaleRefurbInr": {
+        "max": 2500,
+        "min": 800
+      },
+      "source": "informal-sector estimate",
+      "wholeUnitScrapInr": {
+        "max": 250,
+        "min": 100
+      }
+    },
+    "washing-machine": {
+      "asOf": "2026-10-11",
+      "estimate": true,
+      "id": "washing-machine",
+      "note": "Working units resell; dead ones priced on motor copper + steel.",
+      "resaleRefurbInr": {
+        "max": 3000,
+        "min": 1000
+      },
+      "source": "informal-sector estimate",
+      "wholeUnitScrapInr": {
+        "max": 2200,
+        "min": 1000
+      }
+    }
+  },
+  "scrapPerKg": {
+    "bt-blackmass-li": {
+      "asOf": "2026-10-11",
+      "estimate": true,
+      "id": "bt-blackmass-li",
+      "inrPerKg": {
+        "max": 900,
+        "min": 400
+      },
+      "note": "Payable on Co/Ni/Li content; LCO black mass beats LFP.",
+      "source": "informal-sector estimate"
+    },
+    "el-ag": {
+      "asOf": "2026-10-11",
+      "estimate": true,
+      "id": "el-ag",
+      "inrPerKg": {
+        "max": 95000,
+        "min": 75000
+      },
+      "note": "Refiner assay price, not kabadi scale. Included for completeness.",
+      "source": "informal-sector estimate"
+    },
+    "el-al": {
+      "asOf": "2026-10-11",
+      "estimate": true,
+      "id": "el-al",
+      "inrPerKg": {
+        "max": 170,
+        "min": 130
+      },
+      "note": "Clean extrusion/casting scrap; mixed/dirty lower.",
+      "source": "informal-sector estimate"
+    },
+    "el-au": {
+      "asOf": "2026-10-11",
+      "estimate": true,
+      "id": "el-au",
+      "inrPerKg": {
+        "max": 11000000,
+        "min": 9000000
+      },
+      "note": "Refiner assay price. NEVER priced at kabadi scale — recovered via board smelting.",
+      "source": "informal-sector estimate"
+    },
+    "el-cu": {
+      "asOf": "2026-10-11",
+      "estimate": true,
+      "id": "el-cu",
+      "inrPerKg": {
+        "max": 820,
+        "min": 700
+      },
+      "note": "Bright bare copper; insulated wire lower after granulation.",
+      "source": "informal-sector estimate"
+    },
+    "el-ni": {
+      "asOf": "2026-10-11",
+      "estimate": true,
+      "id": "el-ni",
+      "inrPerKg": {
+        "max": 1500,
+        "min": 1100
+      },
+      "note": "Pure nickel strip/tabs; alloy content varies.",
+      "source": "informal-sector estimate"
+    },
+    "el-pb": {
+      "asOf": "2026-10-11",
+      "estimate": true,
+      "id": "el-pb",
+      "inrPerKg": {
+        "max": 190,
+        "min": 150
+      },
+      "note": "Lead plates/grids to authorised smelter.",
+      "source": "informal-sector estimate"
+    },
+    "el-sn": {
+      "asOf": "2026-10-11",
+      "estimate": true,
+      "id": "el-sn",
+      "inrPerKg": {
+        "max": 2400,
+        "min": 1800
+      },
+      "note": "Solder-stream tin; rarely separated at kabadi scale.",
+      "source": "informal-sector estimate"
+    },
+    "el-zn": {
+      "asOf": "2026-10-11",
+      "estimate": true,
+      "id": "el-zn",
+      "inrPerKg": {
+        "max": 240,
+        "min": 180
+      },
+      "note": "Zamak die-cast, galvanized scrap.",
+      "source": "informal-sector estimate"
+    },
+    "fx-pcb-shred": {
+      "asOf": "2026-10-11",
+      "estimate": true,
+      "id": "fx-pcb-shred",
+      "inrPerKg": {
+        "max": 2200,
+        "min": 900
+      },
+      "note": "Populated boards: mainboards at the top, PSU/peripheral boards at the bottom of the range.",
+      "source": "informal-sector estimate"
+    },
+    "fe-ss304": {
+      "asOf": "2026-10-11",
+      "estimate": true,
+      "id": "fe-ss304",
+      "inrPerKg": {
+        "max": 130,
+        "min": 90
+      },
+      "note": "304-grade; magnetic grades lower.",
+      "source": "informal-sector estimate"
+    },
+    "fe-carbon-steel": {
+      "asOf": "2026-10-11",
+      "estimate": true,
+      "id": "fe-carbon-steel",
+      "inrPerKg": {
+        "max": 34,
+        "min": 24
+      },
+      "note": "Clean heavy melting steel.",
+      "source": "informal-sector estimate"
+    },
+    "pl-abs": {
+      "asOf": "2026-10-11",
+      "estimate": true,
+      "id": "pl-abs",
+      "inrPerKg": {
+        "max": 70,
+        "min": 45
+      },
+      "note": "Clean sorted regrind; mixed/painted lower.",
+      "source": "informal-sector estimate"
+    },
+    "pl-hips": {
+      "asOf": "2026-10-11",
+      "estimate": true,
+      "id": "pl-hips",
+      "inrPerKg": {
+        "max": 50,
+        "min": 30
+      },
+      "note": "Clean sorted regrind.",
+      "source": "informal-sector estimate"
+    },
+    "pl-pp": {
+      "asOf": "2026-10-11",
+      "estimate": true,
+      "id": "pl-pp",
+      "inrPerKg": {
+        "max": 55,
+        "min": 35
+      },
+      "note": "Clean sorted regrind.",
+      "source": "informal-sector estimate"
+    },
+    "pl-pvc": {
+      "asOf": "2026-10-11",
+      "estimate": true,
+      "id": "pl-pvc",
+      "inrPerKg": {
+        "max": 30,
+        "min": 15
+      },
+      "note": "Cable jacketing granulate.",
+      "source": "informal-sector estimate"
+    },
+    "pl-mixed": {
+      "asOf": "2026-10-11",
+      "estimate": true,
+      "id": "pl-mixed",
+      "inrPerKg": {
+        "max": 12,
+        "min": 5
+      },
+      "note": "Unsorted shredded e-waste plastic.",
+      "source": "informal-sector estimate"
+    }
+  }
+}

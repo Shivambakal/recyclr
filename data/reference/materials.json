@@ -1,0 +1,458 @@
+{
+  "_meta": {
+    "asOf": "2026-10-11",
+    "idConvention": "All ids are real exported ids from lib/materials.ts (reconciled 2026-10-11).",
+    "note": "Recovery notes keyed by material id. Notes describe process families and handling only — never yields or prices (see pricing.json for estimates, which are always flagged).",
+    "version": 1
+  },
+  "materials": {
+    "bt-18650": {
+      "category": "Battery components",
+      "hazardous": true,
+      "id": "bt-18650",
+      "name": "18650 cylindrical cell",
+      "processFamily": "battery recycler — discharge first",
+      "recoveryNote": "The classic laptop/power-tool Li-ion cell. Discharge to 0 V, then mechanical + hydrometallurgical recovery."
+    },
+    "bt-blackmass-li": {
+      "category": "Recovered fractions",
+      "hazardous": false,
+      "id": "bt-blackmass-li",
+      "name": "Li-ion black mass",
+      "processFamily": "hydrometallurgical refiner",
+      "recoveryNote": "Shredded cathode/anode powder — Co, Ni, Li, Mn rich. The payable fraction of a Li-ion pack."
+    },
+    "bt-bms": {
+      "category": "Battery components",
+      "hazardous": false,
+      "id": "bt-bms",
+      "name": "Battery management system PCB",
+      "processFamily": "PCB precious-metal recovery",
+      "recoveryNote": "Protection/balancing board in every pack; treat as low-grade PCB."
+    },
+    "bt-cr2032": {
+      "category": "Battery components",
+      "hazardous": false,
+      "id": "bt-cr2032",
+      "name": "CR2032 lithium coin cell",
+      "processFamily": "battery recycler",
+      "recoveryNote": "Motherboard CMOS cells. Segregate from the main stream; lithium metal content."
+    },
+    "bt-lco": {
+      "category": "Battery chemistry",
+      "hazardous": true,
+      "id": "bt-lco",
+      "name": "LCO (lithium cobalt oxide) cathode",
+      "processFamily": "hydrometallurgical recovery (Co, Li)",
+      "recoveryNote": "Phone and laptop cells with high cobalt content — historically the most valuable cathode to recycle."
+    },
+    "bt-lfp": {
+      "category": "Battery chemistry",
+      "hazardous": true,
+      "id": "bt-lfp",
+      "name": "LFP (lithium iron phosphate) cathode",
+      "processFamily": "hydrometallurgical recovery (Li, FePO4)",
+      "recoveryNote": "Cobalt-free; lithium is the payable metal. Common in budget EVs, e-rickshaws and storage."
+    },
+    "bt-lipoly": {
+      "category": "Battery components",
+      "hazardous": true,
+      "id": "bt-lipoly",
+      "name": "Li-polymer cell",
+      "processFamily": "battery recycler — discharge first",
+      "recoveryNote": "Gel-electrolyte pouch cells in phones and drones. Puncture/fire risk dominates handling."
+    },
+    "bt-nmc811": {
+      "category": "Battery chemistry",
+      "hazardous": true,
+      "id": "bt-nmc811",
+      "name": "NMC 811 cathode",
+      "processFamily": "hydrometallurgical recovery",
+      "recoveryNote": "High-nickel, low-cobalt — nickel and lithium are the payable metals."
+    },
+    "bt-pb-case": {
+      "category": "Battery components",
+      "hazardous": true,
+      "id": "bt-pb-case",
+      "name": "Lead-acid battery case (PP)",
+      "processFamily": "wash then plastic regrind",
+      "recoveryNote": "Polypropylene contaminated with acid — wash before regrind."
+    },
+    "bt-pb-grid": {
+      "category": "Battery components",
+      "hazardous": true,
+      "id": "bt-pb-grid",
+      "name": "Lead-acid battery grid",
+      "processFamily": "lead smelter — hazardous",
+      "recoveryNote": "Lead-calcium or lead-antimony plate grids. Lead — neurotoxin; authorised smelter only."
+    },
+    "bt-pb-paste": {
+      "category": "Battery components",
+      "hazardous": true,
+      "id": "bt-pb-paste",
+      "name": "Lead-acid battery paste",
+      "processFamily": "lead smelter — hazardous",
+      "recoveryNote": "Lead oxide/sulphate paste on plates — the main lead-bearing fraction."
+    },
+    "el-ag": {
+      "category": "Transition metal",
+      "hazardous": false,
+      "id": "el-ag",
+      "name": "Silver",
+      "processFamily": "smelter recovery",
+      "recoveryNote": "Switch contacts, solders, PV cells, conductive pastes — ~0.35 g per phone."
+    },
+    "el-al": {
+      "category": "Post-transition metal",
+      "hazardous": false,
+      "id": "el-al",
+      "name": "Aluminium",
+      "processFamily": "aluminium remelter",
+      "recoveryNote": "Chassis, heat sinks, electrolytic-capacitor foil, cable shielding. Clean unibody scrap remelts directly."
+    },
+    "el-au": {
+      "category": "Transition metal",
+      "hazardous": false,
+      "id": "el-au",
+      "name": "Gold",
+      "processFamily": "smelter / precious-metal refiner",
+      "recoveryNote": "PCB edge connectors and plating — ~0.03 g per phone. Recovered from populated-board smelting, not manual picking."
+    },
+    "el-br": {
+      "category": "Halogen",
+      "hazardous": true,
+      "id": "el-br",
+      "name": "Bromine",
+      "processFamily": "segregate — specialist handling",
+      "recoveryNote": "Brominated flame retardants in plastics and PCB laminates (legacy). Restricted substances — segregate."
+    },
+    "el-cd": {
+      "category": "Transition metal",
+      "hazardous": true,
+      "id": "el-cd",
+      "name": "Cadmium",
+      "processFamily": "specialist hazardous handling",
+      "recoveryNote": "Legacy NiCd batteries, CdTe solar, pigments — hazardous. Never landfill."
+    },
+    "el-co": {
+      "category": "Transition metal",
+      "hazardous": true,
+      "id": "el-co",
+      "name": "Cobalt",
+      "processFamily": "hydrometallurgical recovery",
+      "recoveryNote": "LCO/NMC Li-ion cathodes — a key recovered battery metal. Dust is a respiratory hazard."
+    },
+    "el-cr": {
+      "category": "Transition metal",
+      "hazardous": false,
+      "id": "el-cr",
+      "name": "Chromium",
+      "processFamily": "steel mill",
+      "recoveryNote": "Chrome plating, stainless steel. Hexavalent chromium in some plating waste is the hazard, not the metal."
+    },
+    "el-cu": {
+      "category": "Transition metal",
+      "hazardous": false,
+      "id": "el-cu",
+      "name": "Copper",
+      "processFamily": "copper smelter / cable granulation",
+      "recoveryNote": "Wiring, PCB traces, motor windings — the backbone metal of e-waste. Granulate cables; smelt boards."
+    },
+    "el-fe": {
+      "category": "Transition metal",
+      "hazardous": false,
+      "id": "el-fe",
+      "name": "Iron",
+      "processFamily": "steel mill",
+      "recoveryNote": "Steel chassis, transformer and motor cores, ferrite magnets. The bulk weight fraction of most appliances."
+    },
+    "el-hg": {
+      "category": "Transition metal",
+      "hazardous": true,
+      "id": "el-hg",
+      "name": "Mercury",
+      "processFamily": "specialist hazardous handling",
+      "recoveryNote": "CCFL backlights, tilt switches, relays — hazardous. One broken CCFL lamp contaminates a whole batch."
+    },
+    "el-in": {
+      "category": "Post-transition metal",
+      "hazardous": false,
+      "id": "el-in",
+      "name": "Indium",
+      "processFamily": "specialist recovery",
+      "recoveryNote": "ITO transparent conductors in LCD touchscreens. Present only as thin films — recovered at refiner scale."
+    },
+    "el-li": {
+      "category": "Alkali metal",
+      "hazardous": true,
+      "id": "el-li",
+      "name": "Lithium",
+      "processFamily": "hydrometallurgical recovery",
+      "recoveryNote": "Li-ion battery cathodes and electrolyte salts — the key battery metal. Reactive; water contact is dangerous."
+    },
+    "el-mg": {
+      "category": "Alkaline earth metal",
+      "hazardous": false,
+      "id": "el-mg",
+      "name": "Magnesium",
+      "processFamily": "specialist smelter",
+      "recoveryNote": "Magnesium-alloy (AZ91) laptop and phone chassis castings. Flammable as fine turnings — no open grinding."
+    },
+    "el-mn": {
+      "category": "Transition metal",
+      "hazardous": false,
+      "id": "el-mn",
+      "name": "Manganese",
+      "processFamily": "smelter",
+      "recoveryNote": "LMO/NMC cathodes, steel alloying, alkaline-battery cathodes."
+    },
+    "el-nd": {
+      "category": "Lanthanide",
+      "hazardous": false,
+      "id": "el-nd",
+      "name": "Neodymium",
+      "processFamily": "specialist rare-earth recovery",
+      "recoveryNote": "NdFeB magnets in motors, speakers and hard drives — the key recovered rare earth. Segregate magnets before shredding."
+    },
+    "el-ni": {
+      "category": "Transition metal",
+      "hazardous": false,
+      "id": "el-ni",
+      "name": "Nickel",
+      "processFamily": "nickel recovery / smelter",
+      "recoveryNote": "NiMH and NMC batteries, plating underlayer, stainless steel."
+    },
+    "el-pb": {
+      "category": "Post-transition metal",
+      "hazardous": true,
+      "id": "el-pb",
+      "name": "Lead",
+      "processFamily": "lead smelter — hazardous",
+      "recoveryNote": "Lead-acid batteries, legacy solder, CRT funnel glass — hazardous. Authorised smelter only."
+    },
+    "el-pd": {
+      "category": "Transition metal",
+      "hazardous": false,
+      "id": "el-pd",
+      "name": "Palladium",
+      "processFamily": "smelter / precious-metal refiner",
+      "recoveryNote": "MLCC electrodes, connector plating — a key recovered precious metal."
+    },
+    "el-sb": {
+      "category": "Metalloid",
+      "hazardous": true,
+      "id": "el-sb",
+      "name": "Antimony",
+      "processFamily": "specialist handling",
+      "recoveryNote": "Antimony-trioxide flame-retardant synergist in legacy plastics; hardens lead battery grids."
+    },
+    "el-si": {
+      "category": "Metalloid",
+      "hazardous": false,
+      "id": "el-si",
+      "name": "Silicon",
+      "processFamily": "no economic recovery at device scale",
+      "recoveryNote": "Semiconductor dies and solar cells. Dies are trace mass — recovery is via whole-board smelting."
+    },
+    "el-sn": {
+      "category": "Post-transition metal",
+      "hazardous": false,
+      "id": "el-sn",
+      "name": "Tin",
+      "processFamily": "smelter recovery",
+      "recoveryNote": "Solder alloys, tin plating, ITO. Recovered with the solder stream."
+    },
+    "el-ti": {
+      "category": "Transition metal",
+      "hazardous": false,
+      "id": "el-ti",
+      "name": "Titanium",
+      "processFamily": "specialist recovery",
+      "recoveryNote": "Premium phone frames, fasteners. Segregate; contaminates aluminium melts."
+    },
+    "el-w": {
+      "category": "Transition metal",
+      "hazardous": false,
+      "id": "el-w",
+      "name": "Tungsten",
+      "processFamily": "specialist recovery",
+      "recoveryNote": "Filaments, phone vibration-motor weights, carbide tooling."
+    },
+    "el-zn": {
+      "category": "Transition metal",
+      "hazardous": false,
+      "id": "el-zn",
+      "name": "Zinc",
+      "processFamily": "smelter",
+      "recoveryNote": "Galvanizing, brass, alkaline batteries, die-cast Zamak housings."
+    },
+    "fx-concrete": {
+      "category": "Recovered fractions",
+      "hazardous": false,
+      "id": "fx-concrete",
+      "name": "Concrete counterweight",
+      "processFamily": "construction aggregate",
+      "recoveryNote": "Front-load washer counterweight — inert; crush for aggregate."
+    },
+    "fx-pcb-shred": {
+      "category": "Recovered fractions",
+      "hazardous": false,
+      "id": "fx-pcb-shred",
+      "name": "Populated PCB fraction",
+      "processFamily": "copper smelter / integrated refiner",
+      "recoveryNote": "Shredded or whole populated boards — copper plus Au/Ag/Pd credits at the smelter. Grade matters: mainboards > PSU boards > peripheral boards."
+    },
+    "fx-lcd-glass": {
+      "category": "Glass",
+      "hazardous": false,
+      "id": "fx-lcd-glass",
+      "name": "LCD panel glass",
+      "processFamily": "specialist glass handling",
+      "recoveryNote": "Thin glass with ITO, polarisers and (in CCFL units) mercury lamps. No melt value — handle as special waste."
+    },
+    "dp-crt-funnel": {
+      "category": "Glass",
+      "hazardous": true,
+      "id": "dp-crt-funnel",
+      "name": "Leaded CRT funnel glass",
+      "processFamily": "lead smelter feed / sealed landfill",
+      "recoveryNote": "~20–25% lead oxide. Cannot go to normal glass recycling — lead smelter feed or hazardous landfill."
+    },
+    "gl-sodalime": {
+      "category": "Glass",
+      "hazardous": false,
+      "id": "gl-sodalime",
+      "name": "Soda-lime panel glass",
+      "processFamily": "glass aggregate",
+      "recoveryNote": "Unleaded CRT panel glass — usable as aggregate, not container glass."
+    },
+    "nf-brass-c360": {
+      "category": "Alloy",
+      "hazardous": false,
+      "id": "nf-brass-c360",
+      "name": "Brass",
+      "processFamily": "brass mill",
+      "recoveryNote": "Connectors, fittings. Segregate from copper for full value."
+    },
+    "fe-ss304": {
+      "category": "Alloy",
+      "hazardous": false,
+      "id": "fe-ss304",
+      "name": "Stainless steel",
+      "processFamily": "stainless remelt",
+      "recoveryNote": "Washer drums, fasteners. Segregate from carbon steel — worth ~4x."
+    },
+    "fe-carbon-steel": {
+      "category": "Alloy",
+      "hazardous": false,
+      "id": "fe-carbon-steel",
+      "name": "Carbon steel",
+      "processFamily": "steel mill",
+      "recoveryNote": "The bulk fraction of large appliances and desktop cases. Magnetic separation after shredding."
+    },
+    "pl-abs": {
+      "category": "Plastics & polymers",
+      "hazardous": false,
+      "id": "pl-abs",
+      "name": "ABS",
+      "processFamily": "plastic regrind",
+      "recoveryNote": "The default housing plastic for monitors, printers, TVs and small appliances."
+    },
+    "pl-hips": {
+      "category": "Plastics & polymers",
+      "hazardous": false,
+      "id": "pl-hips",
+      "name": "HIPS",
+      "processFamily": "plastic regrind",
+      "recoveryNote": "Refrigerator liners, TV cabinets, disposable housings."
+    },
+    "pl-hips-fr": {
+      "category": "Plastics & polymers",
+      "hazardous": true,
+      "id": "pl-hips-fr",
+      "name": "Flame-retarded HIPS",
+      "processFamily": "plastic regrind (check additive content)",
+      "recoveryNote": "CRT-era TV cabinets with brominated flame retardants — check additive content before regrind."
+    },
+    "pl-pc": {
+      "category": "Plastics & polymers",
+      "hazardous": false,
+      "id": "pl-pc",
+      "name": "Polycarbonate",
+      "processFamily": "plastic regrind",
+      "recoveryNote": "Transparent covers, optical discs, safety glazing."
+    },
+    "pl-pc-abs": {
+      "category": "Plastics & polymers",
+      "hazardous": false,
+      "id": "pl-pc-abs",
+      "name": "PC/ABS blend",
+      "processFamily": "plastic regrind",
+      "recoveryNote": "Premium housings needing toughness + heat resistance (laptops, automotive electronics)."
+    },
+    "pl-pom": {
+      "category": "Plastics & polymers",
+      "hazardous": false,
+      "id": "pl-pom",
+      "name": "Acetal / POM",
+      "processFamily": "plastic regrind",
+      "recoveryNote": "Precision gears, printer mechanisms, sliding parts."
+    },
+    "pl-pp": {
+      "category": "Plastics & polymers",
+      "hazardous": false,
+      "id": "pl-pp",
+      "name": "Polypropylene",
+      "processFamily": "plastic regrind",
+      "recoveryNote": "Battery cases, washing-machine tubs, fan blades, living-hinge parts."
+    },
+    "pl-pu-foam": {
+      "category": "Plastics & polymers",
+      "hazardous": false,
+      "id": "pl-pu-foam",
+      "name": "Polyurethane foam",
+      "processFamily": "rebond or energy recovery",
+      "recoveryNote": "Refrigerator insulation. Legacy foam may carry ozone-depleting blowing agents."
+    },
+    "pl-pu-rigid": {
+      "category": "Plastics & polymers",
+      "hazardous": false,
+      "id": "pl-pu-rigid",
+      "name": "Rigid PU foam",
+      "processFamily": "manual dismantling",
+      "recoveryNote": "Fridge/freezer insulation panels."
+    },
+    "pl-pvc": {
+      "category": "Plastics & polymers",
+      "hazardous": false,
+      "id": "pl-pvc",
+      "name": "PVC",
+      "processFamily": "plastic regrind (segregate from other plastics)",
+      "recoveryNote": "Cable insulation, wire jackets, some housings; chlorine content matters in thermal processing — segregate."
+    },
+    "pl-pvc-cable": {
+      "category": "Plastics & polymers",
+      "hazardous": false,
+      "id": "pl-pvc-cable",
+      "name": "PVC cable jacketing",
+      "processFamily": "cable granulation",
+      "recoveryNote": "The outer sheath of most power and data cables — granulate with the copper."
+    },
+    "sd-sac305": {
+      "category": "Solder & brazing",
+      "hazardous": false,
+      "id": "sd-sac305",
+      "name": "SAC305 lead-free solder",
+      "processFamily": "smelter recovery (tin/silver)",
+      "recoveryNote": "The standard lead-free electronics solder for reflow and wave."
+    },
+    "sd-sn63pb37": {
+      "category": "Solder & brazing",
+      "hazardous": true,
+      "id": "sd-sn63pb37",
+      "name": "Sn63/Pb37 eutectic solder",
+      "processFamily": "lead smelter — hazardous",
+      "recoveryNote": "Classic leaded electronics solder; legacy equipment. Fume extraction when desoldering."
+    }
+  }
+}

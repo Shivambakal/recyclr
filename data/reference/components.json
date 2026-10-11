@@ -1,0 +1,976 @@
+{
+  "_meta": {
+    "asOf": "2026-10-11",
+    "materialIdConvention": "All ids are real exported ids from lib/materials.ts (reconciled 2026-10-11).",
+    "note": "Standard dismantling bill-of-materials per device class. Counts are 'typical per unit' with notes where they vary.",
+    "version": 1
+  },
+  "components": {
+    "air-conditioner": {
+      "components": [
+        {
+          "composition": [
+            {
+              "materialId": "el-cu",
+              "note": "refrigerant tubing + compressor windings"
+            },
+            {
+              "materialId": "el-al",
+              "note": "fin stock"
+            }
+          ],
+          "count": 1,
+          "countNote": "outdoor unit",
+          "name": "Outdoor unit (chassis + coils)",
+          "recoveryNote": "Refrigerant recovery first; then copper/aluminium separation."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "el-cu",
+              "note": "compressor motor windings"
+            }
+          ],
+          "count": 1,
+          "name": "Compressor",
+          "recoveryNote": "Oil must be drained by a certified handler."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "el-cu",
+              "note": "fin-tube heat exchanger"
+            }
+          ],
+          "count": 1,
+          "name": "Condenser + evaporator coils",
+          "recoveryNote": "Highest copper yield per kg of any appliance in the catalog."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "el-cu",
+              "note": "motor windings"
+            }
+          ],
+          "count": 2,
+          "name": "Fan motors",
+          "recoveryNote": "Standard motor recycling."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "fx-pcb-shred",
+              "note": "control and inverter boards"
+            }
+          ],
+          "count": 2,
+          "countNote": "indoor + outdoor",
+          "name": "Control PCBs",
+          "recoveryNote": "Inverter models carry larger, more valuable boards."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "pl-abs",
+              "note": "indoor cover"
+            }
+          ],
+          "count": 1,
+          "name": "Indoor unit housing",
+          "recoveryNote": "Plastic regrind."
+        }
+      ]
+    },
+    "crt-monitor": {
+      "components": [
+        {
+          "composition": [
+            {
+              "materialId": "dp-crt-funnel",
+              "note": "~20–25% lead oxide in funnel/neck glass"
+            },
+            {
+              "materialId": "gl-sodalime",
+              "note": "unleaded panel glass"
+            }
+          ],
+          "count": 1,
+          "name": "CRT glass tube",
+          "recoveryNote": "Panel vs funnel glass must be separated; funnel glass is hazardous waste. Never break the tube in the open (implosion)."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "el-cu",
+              "note": "copper windings"
+            }
+          ],
+          "count": 1,
+          "name": "Deflection yoke",
+          "recoveryNote": "Good copper yield."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "el-cu",
+              "note": "degaussing coil"
+            }
+          ],
+          "count": 1,
+          "name": "Degaussing coil",
+          "recoveryNote": "Copper recovery."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "fx-pcb-shred",
+              "note": "main + neck boards"
+            }
+          ],
+          "count": 2,
+          "name": "Circuit boards",
+          "recoveryNote": "Legacy solder — treat as leaded (sd-sn63pb37 era)."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "pl-hips-fr",
+              "note": "may contain brominated flame retardants"
+            }
+          ],
+          "count": 1,
+          "name": "Plastic housing",
+          "recoveryNote": "Check additive content before regrind."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "el-cu",
+              "note": "flyback windings"
+            }
+          ],
+          "count": 1,
+          "name": "Flyback transformer",
+          "recoveryNote": "Copper + ferrite core."
+        }
+      ]
+    },
+    "desktop-pc": {
+      "components": [
+        {
+          "composition": [
+            {
+              "materialId": "fx-pcb-shred",
+              "note": "multi-layer FR-4, gold-plated edge connectors"
+            }
+          ],
+          "count": 1,
+          "name": "Motherboard",
+          "recoveryNote": "Holds most of the unit's precious-metal value (Au, Ag, Pd)."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "el-cu",
+              "note": "transformer windings, heatsinks"
+            }
+          ],
+          "count": 1,
+          "name": "PSU (power supply)",
+          "recoveryNote": "Discharge capacitors; separate board + transformer."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "el-cu",
+              "note": "heatsink + pins"
+            }
+          ],
+          "count": 1,
+          "name": "CPU + cooler",
+          "recoveryNote": "Aluminium/copper heatsink; ceramic package CPUs carry gold."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "el-au",
+              "note": "gold-plated contacts"
+            }
+          ],
+          "count": "1–4",
+          "name": "RAM sticks",
+          "recoveryNote": "Gold finger contacts; separate from mainboard stream."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "el-al",
+              "note": "drive casing; platters carry Pt/Ru layers"
+            }
+          ],
+          "count": "1–2",
+          "name": "Storage (HDD/SSD)",
+          "recoveryNote": "HDDs contain NdFeB magnets (el-nd). Degauss/destroy data per policy."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "fx-pcb-shred",
+              "note": "GPU board when present"
+            }
+          ],
+          "count": "0–1",
+          "name": "GPU (if fitted)",
+          "recoveryNote": "Often the single most valuable board in the unit."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "fe-carbon-steel",
+              "note": "SECC chassis"
+            }
+          ],
+          "count": 1,
+          "name": "Steel case",
+          "recoveryNote": "Bulk steel fraction."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "el-cu",
+              "note": "fan windings"
+            }
+          ],
+          "count": "1–3",
+          "name": "Cooling fans",
+          "recoveryNote": "Minor copper."
+        }
+      ]
+    },
+    "laptop": {
+      "components": [
+        {
+          "composition": [
+            {
+              "materialId": "fx-pcb-shred",
+              "note": "multi-layer board, BGA packages, gold-plated connectors"
+            }
+          ],
+          "count": 1,
+          "name": "Mainboard",
+          "recoveryNote": "Highest precious-metal density board in the unit."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "fx-lcd-glass",
+              "note": "glass + ITO (el-in) + LED backlight"
+            }
+          ],
+          "count": 1,
+          "name": "Display panel",
+          "recoveryNote": "Laminated; mercury risk only in CCFL-era panels (pre-~2012)."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "bt-18650",
+              "note": "6–9 cylindrical cells"
+            },
+            {
+              "materialId": "bt-lipoly",
+              "note": "pouch format in thin models"
+            },
+            {
+              "materialId": "bt-bms",
+              "note": "protection/balancing board"
+            }
+          ],
+          "count": 1,
+          "name": "Battery pack",
+          "recoveryNote": "Discharge and isolate first. The hazardous fraction of the device."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "pl-abs",
+              "note": "keycaps + scissor mechanisms"
+            }
+          ],
+          "count": 1,
+          "name": "Keyboard",
+          "recoveryNote": "Mixed plastic; low recovery value."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "el-cu",
+              "note": "speaker voice coils"
+            },
+            {
+              "materialId": "el-nd",
+              "note": "speaker magnets"
+            }
+          ],
+          "count": 2,
+          "name": "Speakers",
+          "recoveryNote": "NdFeB magnets worth segregating."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "el-cu",
+              "note": "fan motor windings"
+            }
+          ],
+          "count": "1–2",
+          "name": "Cooling fan(s)",
+          "recoveryNote": "Minor copper."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "el-al",
+              "note": "SSD/HDD enclosure"
+            }
+          ],
+          "count": 1,
+          "name": "Storage drive",
+          "recoveryNote": "HDDs carry NdFeB magnets."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "fx-pcb-shred",
+              "note": "small camera module board"
+            }
+          ],
+          "count": 1,
+          "name": "Webcam module",
+          "recoveryNote": "Lens glass + tiny PCB."
+        }
+      ]
+    },
+    "lead-acid-battery": {
+      "components": [
+        {
+          "composition": [
+            {
+              "materialId": "bt-pb-grid",
+              "note": "lead-calcium/antimony grids"
+            },
+            {
+              "materialId": "bt-pb-paste",
+              "note": "lead oxide/sulphate paste"
+            }
+          ],
+          "count": 6,
+          "countNote": "6 × 2 V cells",
+          "name": "Lead plates",
+          "recoveryNote": "~60% of unit weight is recoverable lead. Lead smelter feed — hazardous."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "bt-pb-case",
+              "note": "acid-contaminated PP"
+            }
+          ],
+          "count": 1,
+          "name": "PP case",
+          "recoveryNote": "Wash, then plastic regrind."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "bt-acid",
+              "note": "sulphuric acid electrolyte"
+            }
+          ],
+          "count": 1,
+          "name": "Acid electrolyte",
+          "recoveryNote": "Neutralize — hazardous. Goes to authorised treatment only."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "bt-agm",
+              "note": "glass-fibre separators"
+            }
+          ],
+          "count": 1,
+          "name": "Separators",
+          "recoveryNote": "Lead smelter feed."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "el-pb",
+              "note": "lead-alloy posts"
+            }
+          ],
+          "count": 2,
+          "name": "Terminals",
+          "recoveryNote": "Lead recovery."
+        }
+      ]
+    },
+    "led-tv": {
+      "components": [
+        {
+          "composition": [
+            {
+              "materialId": "fx-lcd-glass",
+              "note": "glass + ITO + polarisers"
+            }
+          ],
+          "count": 1,
+          "name": "LCD panel",
+          "recoveryNote": "Separate panel glass from housing; handle with gloves (laminated, sharp edges)."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "el-hg",
+              "note": "CCFL lamps in pre-2012 units ONLY"
+            },
+            {
+              "materialId": "fx-pcb-shred",
+              "note": "LED driver strips in LED units"
+            }
+          ],
+          "count": 1,
+          "name": "Backlight unit",
+          "recoveryNote": "Confirm LED vs CCFL: mercury hazard applies to CCFL models."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "fx-pcb-shred",
+              "note": "T-con + mainboard"
+            }
+          ],
+          "count": "1–2",
+          "name": "Driver boards",
+          "recoveryNote": "Standard PCB recovery."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "el-cu",
+              "note": "PSU transformer"
+            }
+          ],
+          "count": 1,
+          "name": "PSU board",
+          "recoveryNote": "Copper transformer recovery."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "el-nd",
+              "note": "speaker magnets"
+            }
+          ],
+          "count": 2,
+          "name": "Speakers",
+          "recoveryNote": "Minor."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "pl-hips",
+              "note": "rear cover"
+            },
+            {
+              "materialId": "fe-carbon-steel",
+              "note": "mid-frame/stand"
+            }
+          ],
+          "count": 1,
+          "name": "Housing + stand",
+          "recoveryNote": "Bulk plastic + steel."
+        }
+      ]
+    },
+    "li-ion-battery": {
+      "components": [
+        {
+          "composition": [
+            {
+              "materialId": "bt-18650",
+              "note": "cylindrical format"
+            },
+            {
+              "materialId": "bt-lipoly",
+              "note": "pouch format"
+            },
+            {
+              "materialId": "bt-lco",
+              "note": "phone/laptop cathode chemistry"
+            },
+            {
+              "materialId": "bt-nmc811",
+              "note": "high-nickel EV chemistry"
+            },
+            {
+              "materialId": "bt-lfp",
+              "note": "cobalt-free chemistry"
+            }
+          ],
+          "count": "1–100+",
+          "countNote": "depends on pack size",
+          "name": "Cells",
+          "recoveryNote": "Discharge to 0 V before processing. Chemistry determines hydrometallurgical value (Co/Ni/Li content)."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "bt-bms",
+              "note": "protection + balancing PCB"
+            }
+          ],
+          "count": 1,
+          "name": "BMS board",
+          "recoveryNote": "PCB precious-metal recovery."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "bt-nickel-strip",
+              "note": "spot-weld tabs"
+            }
+          ],
+          "count": 1,
+          "name": "Nickel interconnects",
+          "recoveryNote": "Nickel recovery."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "pl-abs",
+              "note": "pack shell"
+            }
+          ],
+          "count": 1,
+          "name": "Pack housing",
+          "recoveryNote": "Plastic regrind after cell removal."
+        }
+      ]
+    },
+    "printer": {
+      "components": [
+        {
+          "composition": [
+            {
+              "materialId": "fx-pcb-shred",
+              "note": "formatter + engine boards"
+            }
+          ],
+          "count": "1–2",
+          "name": "Mainboard(s)",
+          "recoveryNote": "Standard PCB recovery."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "el-cu",
+              "note": "stepper motor windings"
+            },
+            {
+              "materialId": "el-nd",
+              "note": "stepper magnets"
+            }
+          ],
+          "count": "2–4",
+          "name": "Motors",
+          "recoveryNote": "Good copper/steel yield."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "el-cu",
+              "note": "PSU transformer"
+            }
+          ],
+          "count": 1,
+          "name": "PSU",
+          "recoveryNote": "Discharge capacitors."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "pl-pom",
+              "note": "precision gears"
+            },
+            {
+              "materialId": "fe-carbon-steel",
+              "note": "shafts, frames"
+            }
+          ],
+          "count": 1,
+          "name": "Paper-path mechanism",
+          "recoveryNote": "Mixed mechanical fraction."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "pl-abs",
+              "note": "outer shell"
+            }
+          ],
+          "count": 1,
+          "name": "Plastic housing",
+          "recoveryNote": "Bulk ABS regrind."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "fx-pcb-shred",
+              "note": "cartridge chip boards"
+            }
+          ],
+          "count": "1–4",
+          "countNote": "if supplied with unit",
+          "name": "Toner/ink cartridges",
+          "recoveryNote": "Remove before shredding; toner dust is an inhalation hazard."
+        }
+      ]
+    },
+    "refrigerator": {
+      "components": [
+        {
+          "composition": [
+            {
+              "materialId": "el-cu",
+              "note": "motor windings"
+            },
+            {
+              "materialId": "fe-carbon-steel",
+              "note": "compressor shell"
+            }
+          ],
+          "count": 1,
+          "name": "Compressor",
+          "recoveryNote": "Oil must be drained by a certified handler."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "el-cu",
+              "note": "refrigerant tubing"
+            },
+            {
+              "materialId": "el-al",
+              "note": "fin stock"
+            }
+          ],
+          "count": 2,
+          "countNote": "condenser + evaporator",
+          "name": "Heat-exchanger coils",
+          "recoveryNote": "Refrigerant recovery before cutting any tube."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "fe-carbon-steel",
+              "note": "powder-coated sheet"
+            }
+          ],
+          "count": 1,
+          "name": "Steel cabinet",
+          "recoveryNote": "Bulk steel fraction — largest by weight."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "pl-pu-rigid",
+              "note": "blowing agents historically CFC/HCFC"
+            }
+          ],
+          "count": 1,
+          "name": "PU foam insulation",
+          "recoveryNote": "Legacy foam may carry ozone-depleting blowing agents — specialist handling."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "pl-hips",
+              "note": "door + cabinet liner"
+            }
+          ],
+          "count": 1,
+          "name": "Plastic liner",
+          "recoveryNote": "HIPS regrind."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "fx-pcb-shred",
+              "note": "control/thermostat board"
+            }
+          ],
+          "count": 1,
+          "name": "Control board",
+          "recoveryNote": "Minor PCB value."
+        }
+      ]
+    },
+    "smartphone": {
+      "components": [
+        {
+          "composition": [
+            {
+              "materialId": "fx-pcb-shred",
+              "note": "10-layer HDI board, BGA SoC"
+            }
+          ],
+          "count": 1,
+          "name": "Mainboard",
+          "recoveryNote": "~0.03 g gold, ~0.35 g silver per phone — smelter feed."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "fx-lcd-glass",
+              "note": "cover glass + OLED/LCD + touch sensor"
+            }
+          ],
+          "count": 1,
+          "name": "Display assembly",
+          "recoveryNote": "Laminated; handle with gloves."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "bt-lipoly",
+              "note": "pouch cell, 3000–6000 mAh"
+            }
+          ],
+          "count": 1,
+          "name": "Battery",
+          "recoveryNote": "Remove before any mechanical processing; puncture = fire risk."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "fx-pcb-shred",
+              "note": "sensor + lens barrel"
+            }
+          ],
+          "count": "2–4",
+          "name": "Camera modules",
+          "recoveryNote": "Small PCBs + glass lenses."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "el-nd",
+              "note": "micro speaker magnet"
+            }
+          ],
+          "count": "1–2",
+          "name": "Speakers",
+          "recoveryNote": "NdFeB magnets."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "el-nd",
+              "note": "vibration motor magnet"
+            },
+            {
+              "materialId": "el-w",
+              "note": "tungsten counterweight in some models"
+            }
+          ],
+          "count": 1,
+          "name": "Vibration motor",
+          "recoveryNote": "Tungsten + magnet recovery."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "el-al",
+              "note": "mid-frame"
+            },
+            {
+              "materialId": "el-ti",
+              "note": "premium frames"
+            }
+          ],
+          "count": 1,
+          "name": "Chassis / mid-frame",
+          "recoveryNote": "Aluminium remelt."
+        }
+      ]
+    },
+    "tablet": {
+      "components": [
+        {
+          "composition": [
+            {
+              "materialId": "fx-pcb-shred",
+              "note": "main logic board"
+            }
+          ],
+          "count": 1,
+          "name": "Mainboard",
+          "recoveryNote": "Standard PCB recovery."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "fx-lcd-glass",
+              "note": "laminated touch display"
+            }
+          ],
+          "count": 1,
+          "name": "Display assembly",
+          "recoveryNote": "Largest single part by area; laminated glass."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "bt-lipoly",
+              "note": "1–2 pouch cells, 6000–12000 mAh"
+            }
+          ],
+          "count": 1,
+          "name": "Battery",
+          "recoveryNote": "~half the device weight; glued in — heat-assisted removal."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "fx-pcb-shred",
+              "note": "sensor modules"
+            }
+          ],
+          "count": 2,
+          "name": "Cameras",
+          "recoveryNote": "Minor."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "el-nd",
+              "note": "speaker magnets"
+            }
+          ],
+          "count": "2–4",
+          "name": "Speakers",
+          "recoveryNote": "Minor."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "el-al",
+              "note": "unibody"
+            }
+          ],
+          "count": 1,
+          "name": "Aluminium chassis",
+          "recoveryNote": "Clean aluminium remelt."
+        }
+      ]
+    },
+    "washing-machine": {
+      "components": [
+        {
+          "composition": [
+            {
+              "materialId": "el-cu",
+              "note": "motor windings"
+            },
+            {
+              "materialId": "fe-carbon-steel",
+              "note": "motor laminations"
+            }
+          ],
+          "count": 1,
+          "name": "Drive motor",
+          "recoveryNote": "Main copper-bearing part."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "fe-ss304",
+              "note": "wash drum"
+            }
+          ],
+          "count": 1,
+          "name": "Stainless drum",
+          "recoveryNote": "Clean stainless stream."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "fx-pcb-shred",
+              "note": "controller board"
+            }
+          ],
+          "count": 1,
+          "name": "Control PCB",
+          "recoveryNote": "Standard PCB recovery."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "el-cu",
+              "note": "pump windings"
+            }
+          ],
+          "count": 1,
+          "name": "Drain pump",
+          "recoveryNote": "Minor copper."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "fe-carbon-steel",
+              "note": "powder-coated panels"
+            }
+          ],
+          "count": 1,
+          "name": "Steel body",
+          "recoveryNote": "Bulk steel."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "pl-pp",
+              "note": "wash tub"
+            }
+          ],
+          "count": 1,
+          "name": "PP tub",
+          "recoveryNote": "PP regrind."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "el-cu",
+              "note": "wiring harness"
+            }
+          ],
+          "count": 1,
+          "name": "Wiring harness",
+          "recoveryNote": "Cable granulation."
+        },
+        {
+          "composition": [
+            {
+              "materialId": "fx-concrete",
+              "note": "front-load counterweight"
+            }
+          ],
+          "count": "0–1",
+          "name": "Concrete counterweight",
+          "recoveryNote": "Inert; construction aggregate."
+        }
+      ]
+    }
+  }
+}
