@@ -1,211 +1,158 @@
+"use client";
+
+import { useEffect, useRef } from "react";
 import Link from "next/link";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SplitText } from "gsap/SplitText";
 import Hero3D from "@/components/Hero3D";
-import { Container, SectionHeading, AnimatedCard } from "@/components/ui";
+import { MATERIALS } from "@/lib/materials";
+import {
+  Container,
+  AnimatedCard,
+  Reveal,
+  CountUp,
+} from "@/components/ui";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger, SplitText);
+}
 
 const STATS = [
-  { value: "4.1M+", label: "tonnes of e-waste India generated in 2023–24 (CPCB)", sub: "3rd largest generator in the world" },
-  { value: "~90%", label: "of it flows through the informal sector", sub: "kabadiwalas, dismantlers, small refurbishers" },
-  { value: "2022", label: "E-Waste Management Rules made EPR law", sub: "producers must prove responsible recycling" },
-  { value: "0", label: "digital proof a kabadiwala has today", sub: "their work is invisible to the formal system" },
-];
+  { value: 4.1, decimals: 1, prefix: "", suffix: "M+", label: "tonnes e-waste / yr (India)" },
+  { value: 90, decimals: 0, prefix: "~", suffix: "%", label: "flows through informal sector" },
+  { value: 0, decimals: 0, prefix: "", suffix: "", label: "digital proof a kabadiwala has" },
+] as const;
 
 const FLOW = [
-  {
-    step: "01",
-    title: "Capture",
-    desc: "The recycler photographs the e-waste at intake. The photo's SHA-256, timestamp and GPS are locked in — this exact image can never be reused for a second claim.",
-  },
-  {
-    step: "02",
-    title: "Verify",
-    desc: "The Strands agent walks the evidence lifecycle: INTAKE → DISMANTLING → MATERIAL RECOVERY. A record is verified only when every stage carries evidence.",
-  },
-  {
-    step: "03",
-    title: "Detect Fraud",
-    desc: "Every claim is scored 0–100. Duplicate photos, impossible weights, GPS anomalies and copy-paste metadata are flagged before a record can exist.",
-  },
-  {
-    step: "04",
-    title: "Prove Recovery",
-    desc: "A Verified Recycling Evidence Record is anchored into a tamper-evident SHA-256 chain. Anyone can verify it — no trust required.",
-  },
-];
+  { step: "01", title: "Capture", desc: "Photo + SHA-256 locked at intake. The image can never be reused for a second claim.", edge: "leaf" },
+  { step: "02", title: "Verify", desc: "AI agent walks the evidence lifecycle: intake → dismantling → recovery.", edge: "amber" },
+  { step: "03", title: "Catch fraud", desc: "Every claim scored 0–100. Duplicates, fake weights, GPS anomalies flagged.", edge: "rose" },
+  { step: "04", title: "Prove it", desc: "Verified record anchored in a SHA-256 chain anyone can re-check.", edge: "violet" },
+] as const;
 
-const IMPACT = [
-  {
-    title: "For informal recyclers",
-    desc: "India's 90% informal recycling workforce does the real dismantling work but has zero paperwork. RECYCLR turns each job into portable digital proof — the first step toward EPR credit buyers taking them seriously.",
-  },
-  {
-    title: "For producers (EPR)",
-    desc: "Under the E-Waste Rules 2022, producers must show their e-waste was actually recycled. A verifiable evidence record beats a PDF certificate anyone can forge — every hash in the chain can be re-checked.",
-  },
-  {
-    title: "Against fake recycling",
-    desc: "The cheapest fraud in e-waste is the claim that recycling happened when it didn't. By making claims easy to verify — and attempts permanently logged — RECYCLR makes fakery expensive.",
-  },
-];
+function Hero() {
+  const root = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const ctx = gsap.context(() => {
+      const split = new SplitText(".hero-line", { type: "chars" });
+      const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+      tl.from(".hero-eyebrow", { y: 24, opacity: 0, duration: 0.7 }, 0.1)
+        .from(split.chars, { y: 90, rotate: 4, opacity: 0, duration: 0.9, stagger: 0.028 }, 0.2)
+        .from(".hero-sub", { y: 28, opacity: 0, duration: 0.8 }, 0.7)
+        .from(".hero-cta", { y: 24, opacity: 0, duration: 0.7, stagger: 0.12 }, 0.85);
+    }, root);
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <section ref={root} className="relative flex min-h-[88vh] items-center overflow-hidden">
+      <Hero3D />
+      <Container className="relative z-10 py-24">
+        <div className="max-w-4xl">
+          <p className="hero-eyebrow eyebrow mb-6 inline-block rounded-lg border border-white/15 px-4 py-2 text-mute">
+            Environmental Hacks · Track 03
+          </p>
+          <h1 className="display-tight text-[15vw] text-ink sm:text-[10vw] lg:text-[7.5rem]">
+            <span className="hero-line block">Waste in.</span>
+            <span className="hero-line block text-leaf">Worth out.</span>
+          </h1>
+          <p className="hero-sub mt-6 max-w-xl text-lg leading-relaxed text-mute">
+            An AI agent for trustworthy e-waste recycling — making recycling claims easy to verify.
+          </p>
+          <div className="mt-10 flex flex-wrap items-center gap-4">
+            <Link href="/scanner" className="hero-cta btn-bloom btn-primary-bloom px-8 py-4 text-base">
+              Scan e-waste now →
+            </Link>
+            <Link href="/verify" className="hero-cta btn-bloom btn-ghost-bloom px-8 py-4 text-base">
+              Verify a record
+            </Link>
+          </div>
+        </div>
+      </Container>
+    </section>
+  );
+}
 
 export default function Home() {
   return (
     <div>
-      {/* ================= HERO ================= */}
-      <section className="relative flex min-h-[92vh] items-center overflow-hidden">
-        <div className="grid-bg absolute inset-0" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(16,185,129,0.12),transparent)]" />
-        <Hero3D />
-        <Container className="relative z-10 py-24">
-          <div className="max-w-3xl">
-            <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-neon/30 bg-neon/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.22em] text-neon">
-              <span aria-hidden="true" className="h-2 w-2 animate-pulse rounded-full bg-neon" />
-              WeMakeDevs · Environmental Hacks · Track 03
-            </p>
-            <h1 className="font-display text-5xl font-bold leading-[1.05] text-white sm:text-6xl lg:text-7xl">
-              RECYCLR
-              <span className="text-glow-cyan block bg-gradient-to-r from-neon via-electric to-eco-400 bg-clip-text text-transparent">
-                Trust, engineered.
-              </span>
-            </h1>
-            <p className="mt-6 text-xl font-medium text-eco-200">
-              An AI agent for trustworthy e-waste recycling.
-            </p>
-            <p className="mt-4 max-w-2xl text-lg leading-relaxed text-slate-300/85">
-              We&apos;re not using AI to claim recycling happened. We&apos;re using AI to make
-              recycling claims <span className="font-semibold text-white">easier to verify</span>.
-            </p>
-            <div className="mt-10 flex flex-wrap gap-4">
-              <Link href="/scanner" className="btn-primary rounded-2xl px-8 py-4 text-base">
-                Scan e-waste now →
-              </Link>
-              <Link href="#how" className="btn-ghost rounded-2xl px-8 py-4 text-base font-semibold">
-                How it works
-              </Link>
-            </div>
-            <p className="mt-6 text-sm text-slate-400">
-              One problem, solved well: can we create trustworthy digital evidence that an
-              e-waste item actually passed through a recycling process?
-            </p>
-          </div>
-        </Container>
-        <div className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 animate-bounce text-eco-300/60">
-          ↓
-        </div>
-      </section>
+      <Hero />
 
-      {/* ================= STATS ================= */}
-      <section className="relative border-y border-eco-500/15 bg-abyss/60">
-        <Container className="grid grid-cols-1 gap-6 py-14 sm:grid-cols-2 lg:grid-cols-4">
-          {STATS.map((s, i) => (
-            <AnimatedCard key={s.label} delay={i * 0.08} className="text-center">
-              <p className="font-display text-4xl font-bold text-eco-300 text-glow-green">{s.value}</p>
-              <p className="mt-3 text-sm font-medium leading-snug text-slate-200">{s.label}</p>
-              <p className="mt-1 text-xs text-slate-400">{s.sub}</p>
-            </AnimatedCard>
-          ))}
-        </Container>
-      </section>
-
-      {/* ================= HOW IT WORKS ================= */}
-      <section id="how" className="relative py-24">
+      {/* slim stat strip */}
+      <section className="relative border-y border-white/8 py-8">
         <Container>
-          <SectionHeading
-            eyebrow="The flow"
-            title="Capture → Verify → Detect Fraud → Prove Recovery"
-            sub="A Strands AI agent orchestrates the whole pipeline. Every step produces evidence — or the record doesn't happen."
-          />
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {FLOW.map((f, i) => (
-              <AnimatedCard key={f.step} delay={i * 0.08}>
-                <p className="font-display text-sm font-bold tracking-[0.25em] text-glowcyan">{f.step}</p>
-                <h3 className="mt-3 font-display text-xl font-bold text-white">{f.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-slate-300/75">{f.desc}</p>
-              </AnimatedCard>
-            ))}
-          </div>
-        </Container>
-      </section>
-
-      {/* ================= PROBLEM / SOLUTION ================= */}
-      <section className="relative border-y border-eco-500/15 bg-abyss/60 py-24">
-        <Container>
-          <SectionHeading
-            eyebrow="The problem"
-            title="Recycling certificates are easy to fake. Evidence isn't."
-            sub="A paper certificate says recycling happened. Nothing stops the same photo, the same weight slip, the same GPS pin from being sold five times. RECYCLR attacks exactly that."
-          />
-          <div className="grid gap-6 lg:grid-cols-2">
-            <AnimatedCard className="border-red-flag/25">
-              <h3 className="font-display text-lg font-bold text-red-flag">Today: claims without proof</h3>
-              <ul className="mt-4 space-y-3 text-sm text-slate-300/80">
-                <li>✕ The same e-waste photo submitted for multiple &quot;recycling&quot; claims</li>
-                <li>✕ Inflated weights to harvest more recycling credit</li>
-                <li>✕ Informal recyclers — who do 90% of the work — locked out of EPR value</li>
-                <li>✕ Producers can&apos;t tell a real recycler from a certificate printer</li>
-              </ul>
-            </AnimatedCard>
-            <AnimatedCard className="border-eco-400/30">
-              <h3 className="font-display text-lg font-bold text-eco-300">With RECYCLR: proof, then trust</h3>
-              <ul className="mt-4 space-y-3 text-sm text-slate-300/80">
-                <li>✓ Every photo hashed — duplicates are caught instantly, risk 91/100</li>
-                <li>✓ Weights checked against what the device can physically contain</li>
-                <li>✓ Lifecycle stages (intake → dismantling → recovery) each need evidence</li>
-                <li>✓ Every record anchored in a SHA-256 chain anyone can re-verify</li>
-              </ul>
-            </AnimatedCard>
-          </div>
-        </Container>
-      </section>
-
-      {/* ================= IMPACT ================= */}
-      <section className="relative py-24">
-        <Container>
-          <SectionHeading
-            eyebrow="Impact"
-            title="Small problem, solved well — for the people who need it"
-            sub="India's E-Waste (Management) Rules, 2022 made Extended Producer Responsibility law. But the system runs on trust, and trust is exactly what's missing."
-          />
-          <div className="grid gap-6 md:grid-cols-3">
-            {IMPACT.map((c, i) => (
-              <AnimatedCard key={c.title} delay={i * 0.08}>
-                <h3 className="font-display text-xl font-bold text-white">{c.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-slate-300/75">{c.desc}</p>
-              </AnimatedCard>
-            ))}
-          </div>
-          <div className="glass mt-10 rounded-2xl p-8 text-center">
-            <p className="mx-auto max-w-3xl font-display text-xl font-medium leading-relaxed text-eco-100">
-              &ldquo;We&apos;re not using AI to claim recycling happened. We&apos;re using AI to
-              make recycling claims easier to verify.&rdquo;
-            </p>
-          </div>
-        </Container>
-      </section>
-
-      {/* ================= CTA ================= */}
-      <section className="relative py-24">
-        <Container>
-          <div className="glass-strong relative overflow-hidden rounded-3xl p-10 text-center sm:p-16">
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_60%_at_50%_50%,rgba(16,185,129,0.18),transparent)]" />
-            <div className="relative">
-              <h2 className="font-display text-3xl font-bold text-white sm:text-4xl">
-                Watch the agent catch a fraudster.
-              </h2>
-              <p className="mx-auto mt-4 max-w-xl text-slate-300/80">
-                Upload the same e-waste photo twice in the scanner. The agent flags it —
-                <span className="font-bold text-red-flag"> CLAIM FLAGGED, risk 91/100</span> — and
-                tells you exactly why.
+          <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-4">
+            {STATS.map((s) => (
+              <p key={s.label} className="font-mono2 text-sm text-mute">
+                <span className="display-tight mr-2 text-2xl text-ink">
+                  <CountUp to={s.value} decimals={s.decimals} prefix={s.prefix ?? ""} suffix={s.suffix} />
+                </span>
+                {s.label}
               </p>
-              <div className="mt-8 flex flex-wrap justify-center gap-4">
-                <Link href="/scanner" className="btn-primary rounded-2xl px-8 py-4">
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* how it works */}
+      <section id="how" className="relative overflow-hidden py-20">
+        <Container>
+          <Reveal>
+            <h2 className="display-tight text-4xl text-ink sm:text-5xl">
+              Capture. Verify. <span className="grad-text-fire">Catch fraud.</span> Prove it.
+            </h2>
+          </Reveal>
+          <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {FLOW.map((f, i) => (
+              <AnimatedCard key={f.step} delay={i * 0.08} edge={f.edge}>
+                <p className="display-tight text-4xl text-white/10">{f.step}</p>
+                <h3 className="display-tight mt-2 text-xl text-ink">{f.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-mute">{f.desc}</p>
+              </AnimatedCard>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* materials strip */}
+      <section className="relative py-14">
+        <Container>
+          <Reveal>
+            <Link href="/materials" className="card-lumen card-edge-violet group flex items-center justify-between gap-6 p-6 sm:p-8">
+              <p className="display-tight text-2xl text-ink sm:text-3xl">
+                <CountUp to={MATERIALS.length} /><span className="text-faint">+</span>{" "}
+                <span className="grad-text-leaf">materials</span>
+                <span className="text-faint"> — one searchable index.</span>
+              </p>
+              <span className="btn-bloom btn-violet-bloom shrink-0 px-6 py-3 text-sm transition-transform group-hover:translate-x-1">
+                Browse →
+              </span>
+            </Link>
+          </Reveal>
+        </Container>
+      </section>
+
+      {/* CTA */}
+      <section className="relative py-20">
+        <Container>
+          <Reveal>
+            <div className="relative overflow-hidden rounded-3xl border border-violet/40 bg-gradient-to-br from-[#14101f] via-black to-[#0d1a12] p-10 text-center sm:p-14" style={{ boxShadow: "0 0 80px -20px rgba(139,92,246,.4)" }}>
+              <h2 className="display-tight relative mx-auto max-w-2xl text-4xl text-ink sm:text-5xl">
+                Watch it <span className="grad-text-fire">catch a fraudster.</span>
+              </h2>
+              <p className="relative mx-auto mt-4 max-w-xl text-mute">
+                Upload the same photo twice. The agent flags it — <span className="glow-flag font-black">risk 91/100</span> — and shows exactly why.
+              </p>
+              <div className="relative mt-8 flex flex-wrap justify-center gap-4">
+                <Link href="/scanner" className="btn-bloom btn-primary-bloom px-8 py-4">
                   Open the scanner →
-                </Link>
-                <Link href="/verify" className="btn-ghost rounded-2xl px-8 py-4 font-semibold">
-                  Verify a record
                 </Link>
               </div>
             </div>
-          </div>
+          </Reveal>
         </Container>
       </section>
     </div>

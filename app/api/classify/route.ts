@@ -1,15 +1,18 @@
 import { runRecyclrAgent, buildRunContext, type ClassifyInput } from "@/lib/recyclr-agent";
-import { classifyWithGemini } from "@/lib/gemini-vision";
+import { classifyImage, type VisionProvider } from "@/lib/vision/pipeline";
+import { CATALOG } from "@/lib/catalog";
+import type { GeminiVisionResult } from "@/lib/gemini-vision";
 
 /**
  * POST /api/classify
  * Runs the RECYCLR evidence pipeline through the Strands agent.
  *
- * Vision modes (in priority order):
- *   1. gemini-live   — real Gemini 3.8 Flash vision, when GEMINI_API_KEY is set
- *                      and imageBase64 is provided. Falls back silently on any failure.
- *   2. bedrock       — Amazon Bedrock vision, when RECYCLR_BEDROCK=1 + AWS creds.
+ * Vision cascade (in priority order, via lib/vision/pipeline):
+ *   1. rekognition      — AWS Rekognition DetectLabels (ap-south-1), when AWS creds exist.
+ *   2. gemini-live      — real Gemini 3.8 Flash vision, when GEMINI_API_KEY is set.
  *   3. local-simulation — deterministic offline simulation (default, zero keys).
+ * Each stage degrades silently to the next; result.mode always reports the
+ * provider that actually classified the photo.
  *
  * Body: {
  *   imageHint: string,        // e.g. "smartphone.svg" or original filename
@@ -44,17 +47,45 @@ export async function POST(req: Request) {
   }
 
   try {
-    // Live vision FIRST — null on any failure (no key, network, bad JSON).
-    let vision = null;
+    // Vision cascade: Rekognition → Gemini → local simulation. classifyImage
+    // never throws on vision failure — worst case it reports local-simulation.
+    let vision: GeminiVisionResult | null = null;
+    let visionProvider: VisionProvider = "local-simulation";
     if (typeof body.imageBase64 === "string" && body.imageBase64.length > 100) {
-      vision = await classifyWithGemini(body.imageBase64, body.mimeType || "image/jpeg");
+      const cascade = await classifyImage(
+        Buffer.from(body.imageBase64, "base64"),
+        body.mimeType || "image/jpeg"
+      );
+      visionProvider = cascade.provider;
+      if (cascade.provider === "rekognition" && cascade.ewasteCategory) {
+        // Rekognition's top category feeds the agent as the device hint.
+        // Only a real catalog id steers identify_device (the agent asserts it);
+        // loose signals (cable/pcb) ride along as deviceLabel only.
+        const isCatalogId = CATALOG.some((c) => c.id === cascade.ewasteCategory);
+        vision = {
+          deviceId: isCatalogId ? cascade.ewasteCategory : null,
+          deviceLabel: cascade.ewasteCategory,
+          confidence: cascade.confidence,
+          materials: [], // agent fills from catalog
+          inrValue: 0,
+          co2SavedKg: 0,
+          // Authenticity gate passthrough: buildRunContext spreads this vision
+          // object wholesale into the agent context, where
+          // lib/recyclr-agent.ts reads ctx.vision.authenticity structurally.
+          authenticity: cascade.authenticity,
+        };
+      } else if (cascade.provider === "gemini-live") {
+        // GeminiVisionResult already carries authenticity (model's STEP 1).
+        vision = cascade.geminiVision ?? null;
+      }
     } else {
-      console.info("[recyclr] gemini: no image bytes in request — using local simulation");
+      console.info("[recyclr] vision: no image bytes in request — using local simulation");
     }
 
     const ctx = buildRunContext({ ...body, vision });
     const result = await runRecyclrAgent(ctx);
-    if (vision) result.mode = "gemini-live";
+    // Report the provider that actually classified — never "local-simulation" silently.
+    if (visionProvider !== "local-simulation") result.mode = visionProvider;
     return Response.json(result);
   } catch {
     // Never a 500: the agent pipeline degrades to a plain-English 422.
