@@ -22,6 +22,29 @@ import {
 import { z } from "zod";
 import { CATALOG, lookupByHint, classifyByHash, confidenceFor, type EwasteItem } from "./catalog";
 import type { GeminiVisionResult } from "./gemini-vision";
+import {
+  getDeviceRef,
+  getDeviceComponents,
+  getMaterialNote,
+  getDevicePricing,
+  getScrapPrice,
+  resolveMaterialId,
+  describeWeightRange,
+  describeBattery,
+  describePricingEstimate,
+} from "./reference";
+
+/** Trace helper: cite the reference DB, or log an honest "no reference data". */
+function traceReference(trace: string[], deviceId: string, deviceName: string) {
+  const ref = getDeviceRef(deviceId);
+  if (!ref) {
+    trace.push(`reference: no reference data for device id '${deviceId}' — using catalog fallbacks only`);
+    return;
+  }
+  trace.push(`reference: ${describeWeightRange(ref)}`);
+  const battery = describeBattery(ref);
+  if (battery) trace.push(`reference: ${battery}`);
+}
 
 /* ------------------------------ types ------------------------------ */
 
@@ -66,8 +89,29 @@ export interface ClassifyResult {
   materials: NonNullable<RunContext["materials"]>;
   fraud: FraudResult;
   nextEvidence: NextEvidence;
-  mode: "local-simulation" | "bedrock" | "gemini-live";
+  mode: "local-simulation" | "bedrock" | "gemini-live" | "rekognition";
   agentTrace: string[];
+}
+
+/* ------------------------------------------------------------------ */
+/*  verifyPhoto stage concept                                           */
+/*  A dedicated agent assesses photo authenticity in the vision layer.  */
+/*  Read its result STRUCTURALLY (no import — avoids coupling):         */
+/*    ctx.vision?.authenticity?: { status: "verified"|"unchecked"|       */
+/*      "failed"; kind?: "ai-generated"|"poster"|"screenshot"|           */
+/*      "screen-photo"|"no-device"|"other"; reason: string }             */
+/* ------------------------------------------------------------------ */
+
+interface AuthenticityInfo {
+  status?: string;
+  kind?: string;
+  reason?: string;
+}
+
+/** Structural read of the vision layer's authenticity assessment. */
+function getAuthenticity(ctx: RunContext): AuthenticityInfo | undefined {
+  const v = ctx.vision as unknown as { authenticity?: AuthenticityInfo } | null | undefined;
+  return v?.authenticity ?? undefined;
 }
 
 /* --------------------------- pure logic ---------------------------- */
@@ -130,8 +174,21 @@ export function evaluateFraud(ctx: RunContext, item: EwasteItem): FraudResult {
     });
   }
 
-  const score = Math.min(100, flags.reduce((s, f) => s + f.weight, 0));
-  const verdict = score >= 50 ? "flagged" : score > 0 ? "review" : "clean";
+  // 6. Photo authenticity (verifyPhoto stage). Weight 80 alone crosses the
+  //    flagged threshold (50): a fake photo must never produce analytics.
+  //    "unchecked" status → no flag, no claim.
+  const authenticity = getAuthenticity(ctx);
+  if (authenticity?.status === "failed") {
+    const kind = typeof authenticity.kind === "string" && authenticity.kind ? authenticity.kind : "unknown";
+    const reason = typeof authenticity.reason === "string" && authenticity.reason ? authenticity.reason : "photo failed authenticity checks";
+    flags.push({
+      code: "INAUTHENTIC_PHOTO",
+      detail: `Not valid evidence: ${reason}. An inauthentic photo (${kind}) cannot support a verified recycling record.`,
+      weight: 80,
+    });
+  }
+
+  const score = Math.min(100, flags.reduce((s, f) => s + f.weight, 0));  const verdict = score >= 50 ? "flagged" : score > 0 ? "review" : "clean";
   return { score, flags, verdict };
 }
 
@@ -220,7 +277,8 @@ Pipeline — call tools in this order:
 Rules:
 - A record is verified ONLY when INTAKE, DISMANTLING and MATERIAL RECOVERY all carry evidence AND the fraud verdict is clean.
 - A flagged claim (risk >= 50) can never become verified.
-- You do not certify anything for any government. You produce evidence records.`;
+- You do not certify anything for any government. You produce evidence records.
+- Consult the reference database for real-world specs (weight ranges, battery chemistry/capacity, standard components, recovery notes, price estimates) and cite its facts in the trace. Price figures are ALWAYS estimates — label them as such. Where the database has nothing, say "no reference data" instead of guessing.`;
 
 function buildTools(ctx: RunContext, trace: string[]) {
   const identify_device = tool({
@@ -234,6 +292,7 @@ function buildTools(ctx: RunContext, trace: string[]) {
         const item = CATALOG.find((c) => c.id === v.deviceId)!;
         ctx.identification = { id: item.id, name: item.name, category: item.category, confidence: v.confidence };
         trace.push(`identify_device → ${item.name} (Gemini live vision, ${v.confidence}% confidence)`);
+        traceReference(trace, item.id, item.name);
         return ctx.identification;
       }
       const item = lookupByHint(input.imageHint) ?? classifyByHash(ctx.imageSha256);
@@ -244,6 +303,7 @@ function buildTools(ctx: RunContext, trace: string[]) {
         confidence: confidenceFor(ctx.imageSha256),
       };
       trace.push(`identify_device → ${item.name} (${ctx.identification.confidence}% confidence)`);
+      traceReference(trace, item.id, item.name);
       return ctx.identification;
     },
   });
@@ -275,6 +335,42 @@ function buildTools(ctx: RunContext, trace: string[]) {
         co2SavedKg: item.co2SavedKg,
       };
       trace.push(`estimate_materials → ${item.materials.length} materials, ₹${item.inrValue}, ${item.co2SavedKg} kg CO₂`);
+
+      // Reference DB: standard sub-assemblies, price estimates, recovery notes.
+      const comps = getDeviceComponents(item.id);
+      if (comps) {
+        const names = comps.slice(0, 4).map((c) => c.name).join(", ");
+        trace.push(`reference: ${comps.length} standard sub-assemblies on file (e.g. ${names})`);
+      } else {
+        trace.push(`reference: no reference data for standard components of '${item.id}'`);
+      }
+      const pricing = getDevicePricing(item.id);
+      if (pricing) {
+        trace.push(`reference: ${describePricingEstimate(pricing)}`);
+      } else {
+        trace.push(`reference: no reference data for pricing of '${item.id}'`);
+      }
+      const noted = item.materials
+        .map((m) => {
+          const id = resolveMaterialId(m.name);
+          return id ? getMaterialNote(id) : null;
+        })
+        .filter((n): n is NonNullable<typeof n> => !!n);
+      const hazardous = noted.filter((n) => n.hazardous);
+      if (noted.length) {
+        trace.push(
+          `reference: recovery notes on file for ${noted.length}/${item.materials.length} materials` +
+            (hazardous.length ? ` — hazardous: ${hazardous.map((n) => `${n.name} (${n.processFamily})`).join("; ")}` : "")
+        );
+        // Cite one scrap estimate per hazardous material as a sanity anchor.
+        for (const n of hazardous) {
+          const sp = getScrapPrice(n.id);
+          if (sp) trace.push(`reference: ${n.name} scrap est. ₹${sp.inrPerKg.min}–₹${sp.inrPerKg.max}/kg (est., as of ${sp.asOf}, ${sp.source})`);
+        }
+      } else {
+        trace.push(`reference: no reference data for material recovery notes of '${item.id}'`);
+      }
+
       return { ...ctx.materials, hazards: item.hazards, handlingNote: item.handlingNote };
     },
   });
@@ -300,6 +396,20 @@ function buildTools(ctx: RunContext, trace: string[]) {
       ctx.fraud = evaluateFraud(ctx, item);
       ctx.nextEvidence = decideNextEvidence(ctx.stage, ctx.fraud);
       trace.push(`assess_fraud_risk → score ${ctx.fraud.score}/100 (${ctx.fraud.verdict})`);
+      // verifyPhoto stage trace: only "failed" says anything; "unchecked" is silent.
+      const auth = getAuthenticity(ctx);
+      if (auth?.status === "failed") {
+        trace.push(`verifyPhoto → failed (${auth.kind ?? "unknown"}): ${auth.reason ?? "no reason given"}`);
+      }
+      // Reference DB context for the weight check — informational only; scoring unchanged.
+      if (typeof ctx.declaredWeightKg === "number" && ctx.declaredWeightKg > 0) {
+        const ref = getDeviceRef(item.id);
+        if (ref) {
+          trace.push(`reference: declared ${ctx.declaredWeightKg}kg vs ${describeWeightRange(ref)}`);
+        } else {
+          trace.push(`reference: no reference data for weight range of '${item.id}'`);
+        }
+      }
       return ctx.fraud;
     },
   });
