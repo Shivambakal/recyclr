@@ -193,7 +193,7 @@ export default function MaterialsPage() {
               The database
             </p>
             <h1 className="display-tight text-5xl text-ink sm:text-6xl">
-              Materials <span className="grad-text-leaf">index.</span>
+              Materials <span className="text-leaf">index.</span>
             </h1>
             <p className="mt-4 max-w-2xl text-base leading-relaxed text-mute sm:text-lg">
               Every element on the periodic table, plus the compounds, alloys and recovered
