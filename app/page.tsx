@@ -102,7 +102,7 @@ export default function Home() {
         <Container>
           <Reveal>
             <h2 className="display-tight text-4xl text-ink sm:text-5xl">
-              Capture. Verify. <span className="grad-text-fire">Catch fraud.</span> Prove it.
+              Capture. Verify. <span className="text-amber">Catch fraud.</span> Prove it.
             </h2>
           </Reveal>
           <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -121,13 +121,13 @@ export default function Home() {
       <section className="relative py-14">
         <Container>
           <Reveal>
-            <Link href="/materials" className="card-lumen card-edge-violet group flex items-center justify-between gap-6 p-6 sm:p-8">
+            <Link href="/materials" className="group flex items-center justify-between gap-6 rounded-2xl border border-white/10 bg-white/[0.02] p-6 sm:p-8">
               <p className="display-tight text-2xl text-ink sm:text-3xl">
                 <CountUp to={MATERIALS.length} /><span className="text-faint">+</span>{" "}
-                <span className="grad-text-leaf">materials</span>
+                <span className="text-leaf">materials</span>
                 <span className="text-faint"> — one searchable index.</span>
               </p>
-              <span className="btn-bloom btn-violet-bloom shrink-0 px-6 py-3 text-sm transition-transform group-hover:translate-x-1">
+              <span className="btn-bloom btn-ghost-bloom shrink-0 px-6 py-3 text-sm">
                 Browse →
               </span>
             </Link>
@@ -139,14 +139,14 @@ export default function Home() {
       <section className="relative py-20">
         <Container>
           <Reveal>
-            <div className="relative overflow-hidden rounded-3xl border border-violet/40 bg-gradient-to-br from-[#14101f] via-black to-[#0d1a12] p-10 text-center sm:p-14" style={{ boxShadow: "0 0 80px -20px rgba(139,92,246,.4)" }}>
-              <h2 className="display-tight relative mx-auto max-w-2xl text-4xl text-ink sm:text-5xl">
-                Watch it <span className="grad-text-fire">catch a fraudster.</span>
+            <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center sm:p-14">
+              <h2 className="display-tight mx-auto max-w-2xl text-4xl text-ink sm:text-5xl">
+                Watch it catch a fraudster.
               </h2>
-              <p className="relative mx-auto mt-4 max-w-xl text-mute">
-                Upload the same photo twice. The agent flags it — <span className="glow-flag font-black">risk 91/100</span> — and shows exactly why.
+              <p className="mx-auto mt-4 max-w-xl text-mute">
+                Upload the same photo twice. The agent flags it — <span className="font-bold text-flag">risk 91/100</span> — and shows exactly why.
               </p>
-              <div className="relative mt-8 flex flex-wrap justify-center gap-4">
+              <div className="mt-8 flex flex-wrap justify-center gap-4">
                 <Link href="/scanner" className="btn-bloom btn-primary-bloom px-8 py-4">
                   Open the scanner →
                 </Link>
