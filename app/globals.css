@@ -1,0 +1,222 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ */
+/*  Design system — ported from pulseops-ai (Shivam Bakal)              */
+/*  Dark glassmorphism SOC aesthetic. Exact tokens:                    */
+/*  Deep Slate #07090e / #0d111a / #141b27 · Neon Cyan #00F2FE ·         */
+/*  Electric Blue #3B82F6 · Cyber Green #10B981 · Crimson #EF4444        */
+/* ------------------------------------------------------------------ */
+
+@theme {
+  --font-display: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  --font-body: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+
+  --color-void: #07090e;
+  --color-abyss: #0d111a;
+  --color-panel: #141b27;
+
+  --color-ink: #f8fafc;
+  --color-mute: #94a3b8;
+  --color-faint: #64748b;
+
+  --color-eco-200: #a7f3c7;
+  --color-eco-300: #6ee7a0;
+  --color-eco-400: #34d399;
+  --color-eco-500: #10b981;
+  --color-eco-600: #059669;
+
+  --color-neon: #00f2fe;
+  --color-electric: #3b82f6;
+  --color-indigo-soc: #6366f1;
+  --color-crimson: #ef4444;
+  --color-amber-soc: #f59e0b;
+
+  /* legacy aliases — now point at the exact SOC tokens */
+  --color-glowcyan: #00f2fe;
+  --color-amber-warn: #f59e0b;
+  --color-red-flag: #ef4444;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-void);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(0, 242, 254, 0.3);
+  color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #0d111a;
+}
+::-webkit-scrollbar-thumb {
+  background: #1c2637;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2a3a52;
+}
+
+/* visible keyboard focus — pulseops-ai pattern */
+:focus-visible {
+  outline: 2px solid var(--color-neon);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* skip link — pulseops-ai pattern */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 1rem;
+  z-index: 9999;
+  background: var(--color-neon);
+  color: #000;
+  padding: 0.5rem 1rem;
+  font-weight: 700;
+  border-radius: 8px;
+  transition: top 0.2s;
+}
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* ---------- reusable surfaces (pulseops-ai glass) ---------- */
+.glass {
+  background: rgba(20, 27, 39, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.5);
+}
+
+.glass-strong {
+  background: rgba(13, 17, 26, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.5);
+}
+
+.text-glow-green {
+  text-shadow: 0 0 24px rgba(16, 185, 129, 0.55);
+}
+.text-glow-cyan {
+  text-shadow: 0 0 25px rgba(0, 242, 254, 0.35);
+}
+
+.card-hover {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  background: rgba(28, 38, 55, 0.85);
+  border-color: rgba(0, 242, 254, 0.4);
+  box-shadow: 0 0 25px rgba(0, 242, 254, 0.2), 0 24px 48px -12px rgba(0, 0, 0, 0.5);
+}
+
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(0, 242, 254, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 242, 254, 0.05) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, black 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, black 30%, transparent 75%);
+}
+
+.hash-mono {
+  font-family: "SF Mono", "Fira Code", "Cascadia Code", Consolas, monospace;
+  word-break: break-all;
+}
+
+/* primary button — pulseops-ai: cyan→blue gradient, cyan glow */
+.btn-primary {
+  background: linear-gradient(135deg, #00f2fe, #3b82f6);
+  color: #07090e;
+  font-weight: 700;
+  box-shadow: 0 4px 24px rgba(0, 242, 254, 0.25);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, filter 0.2s ease;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+  box-shadow: 0 0 25px rgba(0, 242, 254, 0.35), 0 8px 32px rgba(0, 242, 254, 0.25);
+}
+.btn-primary:disabled {
+  opacity: 0.45;
+  transform: none;
+  cursor: not-allowed;
+}
+
+.btn-ghost {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: var(--color-ink);
+  transition: all 0.2s ease;
+}
+.btn-ghost:hover {
+  border-color: rgba(0, 242, 254, 0.4);
+  background: rgba(0, 242, 254, 0.06);
+  box-shadow: 0 0 25px rgba(0, 242, 254, 0.15);
+}
+
+.scanline {
+  position: relative;
+  overflow: hidden;
+}
+.scanline::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(transparent 40%, rgba(0, 242, 254, 0.22) 50%, transparent 60%);
+  background-size: 100% 220%;
+  animation: scan 2.2s linear infinite;
+  pointer-events: none;
+}
+@keyframes scan {
+  0% { background-position: 0 120%; }
+  100% { background-position: 0 -120%; }
+}
+
+.pulse-ring {
+  animation: pulsering 2s ease-out infinite;
+}
+@keyframes pulsering {
+  0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.55); }
+  70% { box-shadow: 0 0 0 18px rgba(239, 68, 68, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scanline::after,
+  .pulse-ring {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+    color: #111;
+  }
+  .print-dark-fix {
+    background: #fff !important;
+    color: #111 !important;
+    border-color: #ccc !important;
+  }
+}
