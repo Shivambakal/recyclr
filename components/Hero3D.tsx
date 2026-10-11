@@ -430,8 +430,8 @@ export default function Hero3D() {
   const [reducedMotion] = useState(
     () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches
   );
-  const [count] = useState(() => (typeof window !== "undefined" && window.innerWidth < 640 ? 9 : 13));
-  const [spreadX] = useState(() => (typeof window !== "undefined" && window.innerWidth < 640 ? 2.8 : 4.6));
+  const [count] = useState(() => (typeof window !== "undefined" && window.innerWidth < 640 ? 4 : 6));
+  const [spreadX] = useState(() => (typeof window !== "undefined" && window.innerWidth < 640 ? 3.4 : 5.8));
 
   useEffect(() => {
     setMounted(true);
@@ -478,12 +478,11 @@ export default function Hero3D() {
           gl={{ antialias: true, alpha: true }}
           onCreated={({ gl }) => gl.setClearColor(0x000000, 0)}
         >
-          {/* Dark studio lighting — jewel glow on AMOLED black. */}
-          <ambientLight intensity={0.25} color="#334155" />
-          <directionalLight position={[5, 7, 4]} intensity={1.1} color="#f5f1e8" />
-          <pointLight position={[-5, 2, 3]} intensity={40} color="#22c55e" distance={18} />
-          <pointLight position={[5, -2, 2]} intensity={36} color="#8b5cf6" distance={18} />
-          <pointLight position={[0, 4, -2]} intensity={26} color="#f5a623" distance={16} />
+          {/* Soft studio lighting — restrained. */}
+          <ambientLight intensity={0.35} color="#475569" />
+          <directionalLight position={[5, 7, 4]} intensity={0.9} color="#f5f1e8" />
+          <pointLight position={[-5, 2, 3]} intensity={18} color="#22c55e" distance={18} />
+          <pointLight position={[5, -2, 2]} intensity={14} color="#8b5cf6" distance={18} />
           <Rig frozen={!animate}>
             <DebrisField frozen={!animate} count={count * 18} />
             {shards.map((s, i) => (
