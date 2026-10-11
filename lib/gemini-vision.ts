@@ -13,10 +13,62 @@ import { CATALOG } from "./catalog";
 const MODEL = "gemini-3.8-flash";
 const ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
 
-const PROMPT = `You are an e-waste recognition system. Look at this photo and identify the electronic device shown.
+/* ------------------------------------------------------------------ */
+/*  Photo authenticity contract                                         */
+/*                                                                     */
+/*  Shared shape so the fraud engine and scanner UI can gate on it.     */
+/*  Defined here because GeminiVisionResult must carry it; re-exported  */
+/*  from lib/vision/pipeline.ts for the rest of the app.                */
+/* ------------------------------------------------------------------ */
+
+export type AuthenticityKind =
+  | "ai-generated"
+  | "poster"
+  | "screenshot"
+  | "screen-photo"
+  | "no-device"
+  | "other";
+
+export interface Authenticity {
+  status: "verified" | "unchecked" | "failed";
+  kind?: AuthenticityKind;
+  /** Plain language, e.g. "this looks like a product advertisement poster, not a photograph of a physical device" */
+  reason: string;
+}
+
+const AUTHENTICITY_KINDS: ReadonlySet<string> = new Set([
+  "ai-generated",
+  "poster",
+  "screenshot",
+  "screen-photo",
+  "no-device",
+  "other",
+]);
+
+/**
+ * STEP 1 of the prompt is the authenticity gate: genuine camera photograph
+ * of a physical e-waste item vs. ai-generated / poster / screen-photo /
+ * screenshot / no-device. Classification (STEP 2) only happens when the
+ * image is authentic; otherwise the model must NOT invent a device.
+ */
+export const PROMPT = `You are an e-waste recognition system. Look at this image.
+
+STEP 1 — AUTHENTICITY CHECK (do this FIRST, before anything else).
+Decide whether this is a genuine photograph of a physical electronic device or e-waste item, or one of:
+- ai-generated: synthetic / AI-rendered imagery, not a real photograph
+- poster: a product advertisement poster, billboard, marketing graphic, or promotional render
+- screen-photo: a photograph of a screen/display showing the item, not the physical item itself
+- screenshot: a screenshot or UI capture, not a camera photograph
+- no-device: no electronic device or e-waste item is visible at all
+
+STEP 2 — DEVICE IDENTIFICATION (ONLY if the image is authentic).
+If the image passed STEP 1, identify the electronic device shown.
 
 Return ONLY valid JSON — no markdown fences, no explanation, no extra text — with exactly this shape:
 {
+  "authentic": <true or false — from STEP 1>,
+  "authenticity_kind": "<one of: ai-generated, poster, screen-photo, screenshot, no-device, other — REQUIRED when authentic is false, null when true>",
+  "authenticity_reason": "<REQUIRED plain-language sentence, e.g. 'this looks like a product advertisement poster, not a photograph of a physical device'>",
   "device_type": "<one of: smartphone, laptop, tablet, desktop-pc, crt-monitor, led-tv, printer, lead-acid-battery, li-ion-battery, refrigerator, washing-machine, air-conditioner, or 'unknown' if you cannot tell>",
   "confidence": <0-100 integer>,
   "materials": [{"name": "<material name>", "weight_g": <number>, "value_inr": <number>}],
@@ -24,7 +76,10 @@ Return ONLY valid JSON — no markdown fences, no explanation, no extra text —
   "notes": "<one short sentence>"
 }
 
-Estimate recoverable materials realistically for the Indian informal recycling sector.`;
+RULES:
+- If authentic is false: set device_type to "unknown", confidence to 0, materials to [], co2_saved_kg to 0. NEVER invent a device classification for a non-authentic image.
+- authenticity_reason is always required and must be plain language a non-expert can understand.
+- Estimate recoverable materials realistically for the Indian informal recycling sector (STEP 2 only).`;
 
 export interface GeminiVisionResult {
   deviceId: string | null; // catalog id when the device_type maps, else null
@@ -33,6 +88,8 @@ export interface GeminiVisionResult {
   materials: { name: string; grams: number }[];
   inrValue: number;
   co2SavedKg: number;
+  /** Photo authenticity gate result — assessed FIRST by the vision model. */
+  authenticity: Authenticity;
 }
 
 function stripFences(text: string): string {
@@ -100,7 +157,47 @@ export async function classifyWithGemini(
     }
 
     const parsed = JSON.parse(stripFences(text));
-    const deviceType = String(parsed.device_type || "unknown").toLowerCase().trim();
+
+    // --- Authenticity gate (STEP 1 of the prompt). ---
+    const authenticRaw = parsed.authentic;
+    const authReason = String(parsed.authenticity_reason ?? "").trim();
+    const authKindRaw = String(parsed.authenticity_kind ?? "")
+      .toLowerCase()
+      .trim();
+    const authKind: AuthenticityKind = AUTHENTICITY_KINDS.has(authKindRaw)
+      ? (authKindRaw as AuthenticityKind)
+      : "other";
+
+    let authenticity: Authenticity;
+    if (authenticRaw === true) {
+      authenticity = {
+        status: "verified",
+        reason:
+          authReason ||
+          "the image looks like a genuine photograph of a physical electronic device",
+      };
+    } else if (authenticRaw === false) {
+      authenticity = {
+        status: "failed",
+        kind: authKind,
+        reason:
+          authReason ||
+          "the image does not look like a genuine photograph of a physical device",
+      };
+    } else {
+      // The model did not report an assessment — be honest, don't assume.
+      authenticity = {
+        status: "unchecked",
+        reason: "the vision model did not report a photo authenticity assessment",
+      };
+    }
+
+    // A non-authentic image must never receive a device classification —
+    // enforce the prompt rule even if the model ignored it.
+    const authentic = authenticRaw === true;
+    const deviceType = authentic
+      ? String(parsed.device_type || "unknown").toLowerCase().trim()
+      : "unknown";
     const catalogHit = CATALOG.find((c) => c.id === deviceType) ?? null;
 
     const materials = Array.isArray(parsed.materials)
@@ -120,17 +217,34 @@ export async function classifyWithGemini(
     const useCatalogMaterials = materials.length === 0 || inrValue <= 0;
 
     console.info(
-      `[recyclr] gemini: LIVE vision classified "${deviceType}"` +
+      `[recyclr] gemini: LIVE vision authenticity=${authenticity.status}` +
+        (authenticity.kind ? `(${authenticity.kind})` : "") +
+        ` classified "${deviceType}"` +
         (catalogHit ? ` → catalog ${catalogHit.id}` : " → no catalog match")
     );
 
     return {
       deviceId: catalogHit ? catalogHit.id : null,
       deviceLabel: deviceType === "unknown" ? "Unknown device" : deviceType,
-      confidence: clamp(Math.round(Number(parsed.confidence) || 80), 1, 100),
-      materials: useCatalogMaterials && catalogHit ? catalogHit.materials : materials,
-      inrValue: useCatalogMaterials && catalogHit ? catalogHit.inrValue : Math.round(inrValue),
-      co2SavedKg: Number(parsed.co2_saved_kg) > 0 ? Number(parsed.co2_saved_kg) : (catalogHit?.co2SavedKg ?? 0),
+      confidence: authentic
+        ? clamp(Math.round(Number(parsed.confidence) || 80), 1, 100)
+        : 0,
+      materials: authentic
+        ? useCatalogMaterials && catalogHit
+          ? catalogHit.materials
+          : materials
+        : [],
+      inrValue: authentic
+        ? useCatalogMaterials && catalogHit
+          ? catalogHit.inrValue
+          : Math.round(inrValue)
+        : 0,
+      co2SavedKg: authentic
+        ? Number(parsed.co2_saved_kg) > 0
+          ? Number(parsed.co2_saved_kg)
+          : (catalogHit?.co2SavedKg ?? 0)
+        : 0,
+      authenticity,
     };
   } catch (err) {
     console.info(`[recyclr] gemini: call failed (${err instanceof Error ? err.message : err}) — using local simulation`);
