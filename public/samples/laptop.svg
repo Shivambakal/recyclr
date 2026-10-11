@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0a1418"/><stop offset="1" stop-color="#060d11"/>
+    </linearGradient>
+    <linearGradient id="scr2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0a3d30"/><stop offset="1" stop-color="#041f18"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg2)"/>
+  <g opacity="0.15" stroke="#34d399" stroke-width="1">
+    <path d="M0 60 H400 M0 140 H400 M0 220 H400 M80 0 V300 M200 0 V300 M320 0 V300"/>
+  </g>
+  <g transform="translate(95,55)">
+    <rect x="0" y="0" width="210" height="130" rx="8" fill="#101418" stroke="#34d399" stroke-width="2.5"/>
+    <rect x="10" y="10" width="190" height="110" rx="4" fill="url(#scr2)" stroke="#10b981" stroke-width="1"/>
+    <rect x="30" y="32" width="70" height="10" rx="5" fill="#10b981" opacity="0.7"/>
+    <rect x="30" y="50" width="110" height="7" rx="3.5" fill="#22d3ee" opacity="0.4"/>
+    <rect x="30" y="64" width="90" height="7" rx="3.5" fill="#22d3ee" opacity="0.25"/>
+    <circle cx="30" cy="140" r="4" fill="#22d3ee"/>
+    <path d="M-24 130 L234 130 L244 168 L-34 168 Z" fill="#141b21" stroke="#34d399" stroke-width="2"/>
+    <rect x="80" y="140" width="50" height="8" rx="4" fill="#0d2b23" stroke="#10b981" stroke-width="1"/>
+  </g>
+  <g stroke="#34d399" stroke-width="1.5" opacity="0.7">
+    <rect x="30" y="240" width="10" height="10" fill="none"/><circle cx="360" cy="250" r="6" fill="none"/>
+  </g>
+  <text x="200" y="272" text-anchor="middle" fill="#6ee7a0" font-family="monospace" font-size="13" letter-spacing="3">SAMPLE · LAPTOP · INTAKE</text>
+</svg>

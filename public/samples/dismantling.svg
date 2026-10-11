@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <linearGradient id="bg4" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0a1418"/><stop offset="1" stop-color="#060d11"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg4)"/>
+  <g opacity="0.15" stroke="#34d399" stroke-width="1">
+    <path d="M0 60 H400 M0 140 H400 M0 220 H400 M80 0 V300 M200 0 V300 M320 0 V300"/>
+  </g>
+  <!-- workbench -->
+  <rect x="40" y="180" width="320" height="14" rx="4" fill="#141b21" stroke="#34d399" stroke-width="2"/>
+  <rect x="60" y="194" width="12" height="60" fill="#0d1519"/>
+  <rect x="328" y="194" width="12" height="60" fill="#0d1519"/>
+  <!-- disassembled phone parts -->
+  <g transform="translate(80,110)">
+    <rect x="0" y="0" width="52" height="100" rx="8" fill="none" stroke="#22d3ee" stroke-width="2" stroke-dasharray="7 4"/>
+    <text x="26" y="118" text-anchor="middle" fill="#22d3ee" font-size="10" font-family="monospace">HOUSING</text>
+  </g>
+  <g transform="translate(160,120)">
+    <rect x="0" y="0" width="70" height="50" rx="4" fill="#0b3d2e" stroke="#34d399" stroke-width="2"/>
+    <rect x="8" y="8" width="14" height="14" fill="#0e1418" stroke="#10b981"/>
+    <rect x="28" y="8" width="14" height="14" fill="#0e1418" stroke="#10b981"/>
+    <rect x="8" y="28" width="34" height="8" fill="#b87333" opacity="0.7"/>
+    <text x="35" y="68" text-anchor="middle" fill="#34d399" font-size="10" font-family="monospace">PCB</text>
+  </g>
+  <g transform="translate(262,115)">
+    <rect x="0" y="0" width="56" height="34" rx="6" fill="#101418" stroke="#fbbf24" stroke-width="2"/>
+    <rect x="22" y="-12" width="12" height="14" fill="#1a2530" stroke="#fbbf24" stroke-width="1.5"/>
+    <text x="28" y="52" text-anchor="middle" fill="#fbbf24" font-size="10" font-family="monospace">BATTERY</text>
+  </g>
+  <!-- screwdriver -->
+  <g transform="translate(300,60) rotate(35)">
+    <rect x="0" y="0" width="10" height="46" rx="5" fill="#f87171" opacity="0.85"/>
+    <rect x="3" y="46" width="4" height="34" fill="#c9d4d0"/>
+  </g>
+  <text x="200" y="272" text-anchor="middle" fill="#6ee7a0" font-family="monospace" font-size="13" letter-spacing="3">SAMPLE · DISMANTLING EVIDENCE</text>
+</svg>

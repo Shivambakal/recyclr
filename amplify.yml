@@ -1,0 +1,19 @@
+version: 1
+# AWS Amplify — Ship It path for RECYCLR
+# Connect this repo in the Amplify console; Amplify detects Next.js SSR automatically.
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci
+    build:
+      commands:
+        - npm run build
+  artifacts:
+    baseDirectory: .next
+    files:
+      - "**/*"
+  cache:
+    paths:
+      - node_modules/**/*
+      - .next/cache/**/*
